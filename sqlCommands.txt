@@ -1,0 +1,72 @@
+// Select all records
+SELECT u.user_id, u.firstname, u.lastname, u.email, p.product_id, p.title, p.price  
+FROM users AS u 
+INNER JOIN products AS p ON u.user_id = p.user_id
+
+
+
+// Select all records that admin owns
+SELECT u.firstname, u.lastname, u.email, p.title, p.price 
+FROM users AS u INNER JOIN products AS p ON u.user_id = p.user_id 
+WHERE firstname = "admin";
+
+// Select all records that tim owns
+SELECT u.firstname, u.lastname, u.email, p.title, pi.pin_id, pi.pinned, pi.product_id
+FROM products AS p INNER JOIN pinned_items AS pi ON p.user_id = pi.user_id
+
+
+//Select pinned items
+SELECT 
+    pi.user_id, u.user_id,u.firstname, u.lastname, u.email, pi.pin_id, pi.pinned, pi.product_id, p.title
+FROM
+    users u
+INNER JOIN pinned_items pi
+    USING (user_id)
+INNER JOIN products p
+    USING (product_id);
+
+
+//Insert into table
+insert into pinned_items (pinned, product_id, user_id) values (true, 9, 5)
+
+// select pinned items
+select 
+    u.email, p.product_id, pi.pinned
+from pinned_items pi
+INNER JOIN users u
+    USING (user_id)
+INNER JOIN products p
+    USING (product_id)
+WHERE 
+    u.email = 'alexakins@example.com' AND p.product_id=5
+
+//Select all items /w pin 
+SELECT 
+    u.user_id, u.firstname, u.lastname, u.email, p.product_id, p.title, p.price  
+FROM users AS u 
+INNER JOIN products p
+    USING(user_id)
+
+
+//search items
+SELECT 
+   u.firstname, u.lastname, u.email, p.product_id,  p.picture, p.title, p.price 
+FROM users AS u 
+INNER JOIN products AS p ON u.user_id = p.user_id
+WHERE 
+    CONCAT(title,description) LIKE '%it%'
+
+
+INSERT INTO 
+user_products_list (user_id, product_id, pinned)
+VALUES (3,1,false)
+
+INSERT INTO
+user_products_list 
+ (product_id, user_id, title, product_author, description, picture, firstname, lastname, price, email, votes, pinned)  
+VALUES ('".$product_id."', '".$user_id."', '".$title."', '".$product_author."', '".$desc."', '".$picture."',
+         '".$firstname."', '".$lastname."', '".$price."', '".$email."', '".$votes."', false)
+
+
+SELECT pin_id, product_id, user_id, title, product_author, picture, firstname, lastname, price, email, votes, pinned
+FROM user_products_list
